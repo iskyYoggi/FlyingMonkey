@@ -20,30 +20,29 @@ private:
 	//The window we'll be rendering to
 	SDL_Window* gWindow = NULL;
 
-	//The window renderer
-	SDL_Renderer* gRenderer = NULL;
-
 	//Current displayed texture
-	Texture Monkey1;
+	//Texture Monkey1;
 
 public:
 	//Screen dimension constants
 	const static int SCREEN_WIDTH = 640;
 	const static int SCREEN_HEIGHT = 480;
 
-private:
-	SDL_Texture* loadTexture( std::string path );
+	//The window renderer
+	SDL_Renderer* gRenderer = NULL;
 
 public:
 	Screen();
 	virtual ~Screen();
 
 	bool init();
-	bool loadMedia();
 	void clear();
 	void update();
-//	void renderViewPoint(SDL_Texture* myTexture, SDL_Rect* myViewport);
+	SDL_Renderer* getRenderer();
+#if 0
+	bool loadMedia();
 	void renderer();
+#endif
 	void close();
 };
 

@@ -11,6 +11,7 @@
 namespace basic {
 
 Texture::Texture() {
+	mTexture = NULL;
 }
 
 Texture::~Texture() {
@@ -106,9 +107,9 @@ void Texture::render( SDL_Renderer* mRenderer, int x, int y, SDL_Rect* clip, dou
 		renderQuad.w = clip->w;
 		renderQuad.h = clip->h;
 	}
-	SDL_RenderCopy( mRenderer, mTexture, NULL, NULL );
+
 	//Render to screen
-	//SDL_RenderCopyEx( mRenderer, mTexture, clip, &renderQuad, angle, center, flip );
+	SDL_RenderCopyEx( mRenderer, mTexture, clip, &renderQuad, angle, center, flip );
 }
 
 void Texture::free()

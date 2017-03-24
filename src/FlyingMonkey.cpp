@@ -12,14 +12,40 @@
 #include <SDL_image.h>
 #include <stdio.h>
 #include <string>
-#include <Screen.h>
+#include "Screen.h"
+#include "Texture.h"
 
 using namespace std;
 using namespace basic;
 
-int main() {
+Screen screen;
+Texture monkey2;
+Texture bird1;
+Texture background;
 
-	Screen screen;
+bool loadMedia(void)
+{
+	if(monkey2.loadFromFile( screen.getRenderer(), "resources/monkey6.png") == false)
+	{
+		cout << "Error: Failed to load texture image!" << endl;
+		return false;
+	}
+
+	if(bird1.loadFromFile( screen.getRenderer(), "resources/birds.png") == false)
+	{
+		cout << "Error: Failed to load texture image!" << endl;
+		return false;
+	}
+
+	if(background.loadFromFile( screen.getRenderer(), "resources/sky.jpg") == false)
+	{
+		cout << "Error: Failed to load texture image!" << endl;
+		return false;
+	}
+	return true;
+}
+
+int main() {
 	//Start up SDL and create window
 	if( !screen.init() )
 	{
@@ -27,17 +53,15 @@ int main() {
 		return -1;
 	}
 	//Load media
-	if( !screen.loadMedia() )
+	if( !loadMedia() )
 	{
 		printf( "Failed to load media!\n" );
 		return -1;
 	}
 
-	//Main loop flag
-	bool quit = false;
-
-	//Event handler
-	SDL_Event e;
+	bool quit = false; //Main loop flag
+	SDL_Event e; //Event handler
+	int scrollingOffset = 0; //The background scrolling offset
 
 	//While application is running
 	while( !quit )
@@ -52,12 +76,29 @@ int main() {
 			}
 		}
 
+		//Scroll background
+		--scrollingOffset;
+		if( scrollingOffset < - background.getWidth() )
+		{
+			scrollingOffset = 0;
+		}
+
 		screen.clear();
 
-		screen.renderer();
+		//Render background
+		background.render( screen.getRenderer(), scrollingOffset, 0 );
+		background.render( screen.getRenderer(), scrollingOffset + background.getWidth(), 0 );
+		//monkey2.render( screen.getRenderer(), 0 ,0);
+
+		//screen.renderer();
 
 		screen.update();
 	}
+
+	//Free loaded image
+	monkey2.free();
+	bird1.free();
+	background.free();
 
 	screen.close();
 

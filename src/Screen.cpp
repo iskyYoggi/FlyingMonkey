@@ -26,11 +26,11 @@ bool Screen::init(){
 		return false;
 	}
 
-//	//Set texture filtering to linear
-//	if( !SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, "1" ) )
-//	{
-//		cout << "Warning: Linear texture filtering not enabled!" ;
-//	}
+	//Set texture filtering to linear
+	if( !SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, "1" ) )
+	{
+		cout << "Warning: Linear texture filtering not enabled!" ;
+	}
 
 	//Create window
 	gWindow = SDL_CreateWindow( "Flying Monkey", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
@@ -52,7 +52,7 @@ bool Screen::init(){
 	SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
 
 	//Initialize PNG loading
-	int imgFlags = IMG_INIT_PNG;
+	int imgFlags = IMG_INIT_PNG | IMG_INIT_JPG;
 	if( !( IMG_Init( imgFlags ) & imgFlags ) )
 	{
 		cout << "Error: SDL_image could not initialize! SDL_image Error: " << IMG_GetError() << endl;
@@ -63,8 +63,7 @@ bool Screen::init(){
 }
 
 void Screen::close(){
-	//Free loaded image
-	Monkey1.free();
+	//Free loaded image before screen close
 
 	//Destroy window
 	SDL_DestroyRenderer( gRenderer );
@@ -78,6 +77,21 @@ void Screen::close(){
 	SDL_Quit();
 }
 
+void Screen::clear(){
+	SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
+	SDL_RenderClear( gRenderer );
+}
+
+void Screen::update(){
+	//Update screen
+	SDL_RenderPresent( gRenderer );
+}
+
+SDL_Renderer* Screen::getRenderer()
+{
+	return gRenderer;
+}
+#if 0
 bool Screen::loadMedia(){
 	//Load texture
 	if(Monkey1.loadFromFile( gRenderer, "resources/monkey1.png") == false)
@@ -87,16 +101,6 @@ bool Screen::loadMedia(){
 	}
 
 	return true;
-}
-
-void Screen::clear(){
-	SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
-	SDL_RenderClear( gRenderer );
-}
-
-void Screen::update(){
-	//Update screen
-	SDL_RenderPresent( gRenderer );
 }
 
 void Screen::renderer(){
@@ -111,4 +115,5 @@ void Screen::renderer(){
 	//Render texture to screen
 	Monkey1.render( gRenderer, 0 ,0);
 }
+#endif
 } /* namespace basic */
