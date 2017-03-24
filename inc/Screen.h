@@ -11,6 +11,7 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <string>
+#include "Texture.h"
 
 namespace basic {
 
@@ -22,15 +23,13 @@ private:
 	//The window renderer
 	SDL_Renderer* gRenderer = NULL;
 
+	//Current displayed texture
+	Texture Monkey1;
+
 public:
 	//Screen dimension constants
 	const static int SCREEN_WIDTH = 640;
 	const static int SCREEN_HEIGHT = 480;
-
-	//Current displayed texture
-	SDL_Texture* gTexture = NULL;
-	SDL_Texture* gTexture1 = NULL;
-	SDL_Texture* gTexture2 = NULL;
 
 private:
 	SDL_Texture* loadTexture( std::string path );
