@@ -88,7 +88,12 @@ int main() {
 		//Render background
 		background.render( screen.getRenderer(), scrollingOffset, 0 );
 		background.render( screen.getRenderer(), scrollingOffset + background.getWidth(), 0 );
-		//monkey2.render( screen.getRenderer(), 0 ,0);
+		SDL_Rect SrcR;
+		SrcR.x = 0;
+		SrcR.y = 0;
+		SrcR.w = 60;
+		SrcR.h = 40;
+		bird1.render( screen.getRenderer(), 80 ,60, &SrcR);
 
 		//screen.renderer();
 
