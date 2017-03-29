@@ -14,32 +14,41 @@
 #include <string>
 #include "Screen.h"
 #include "Texture.h"
+#include "Monkey.h"
+#include "Bird.h"
 
 using namespace std;
 using namespace basic;
+using namespace objects;
 
 Screen screen;
-Texture monkey2;
-Texture bird1;
+Monkey monkey;
+Bird bird1, bird2;
 Texture background;
 
 bool loadMedia(void)
 {
-	if(monkey2.loadFromFile( screen.getRenderer(), "resources/monkey6.png") == false)
+	if(monkey.init() == false)
 	{
-		cout << "Error: Failed to load texture image!" << endl;
+		cout << "Error: Failed to load monkey image!" << endl;
 		return false;
 	}
 
-	if(bird1.loadFromFile( screen.getRenderer(), "resources/birds.png") == false)
+	if(bird1.init(700,400) == false)
 	{
-		cout << "Error: Failed to load texture image!" << endl;
+		cout << "Error: Failed to load bird image!" << endl;
+		return false;
+	}
+
+	if(bird2.init(100, 300) == false)
+	{
+		cout << "Error: Failed to load bird image!" << endl;
 		return false;
 	}
 
 	if(background.loadFromFile( screen.getRenderer(), "resources/sky.jpg") == false)
 	{
-		cout << "Error: Failed to load texture image!" << endl;
+		cout << "Error: Failed to load sky image!" << endl;
 		return false;
 	}
 	return true;
@@ -74,7 +83,9 @@ int main() {
 			{
 				quit = true;
 			}
+			monkey.handleEvent(e);
 		}
+		monkey.move();
 
 		//Scroll background
 		--scrollingOffset;
@@ -88,21 +99,20 @@ int main() {
 		//Render background
 		background.render( screen.getRenderer(), scrollingOffset, 0 );
 		background.render( screen.getRenderer(), scrollingOffset + background.getWidth(), 0 );
-		SDL_Rect SrcR;
-		SrcR.x = 0;
-		SrcR.y = 0;
-		SrcR.w = 60;
-		SrcR.h = 40;
-		bird1.render( screen.getRenderer(), 80 ,60, &SrcR);
 
-		//screen.renderer();
+		//Render Objects
+		bird1.render();
+		bird2.render();
+		monkey.render();
 
 		screen.update();
+		SDL_Delay(10);
 	}
 
 	//Free loaded image
-	monkey2.free();
+	monkey.free();
 	bird1.free();
+	bird2.free();
 	background.free();
 
 	screen.close();

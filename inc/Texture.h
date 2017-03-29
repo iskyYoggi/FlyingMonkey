@@ -10,6 +10,7 @@
 
 #include <stdio.h>
 #include <SDL.h>
+#include <string>
 
 namespace basic {
 

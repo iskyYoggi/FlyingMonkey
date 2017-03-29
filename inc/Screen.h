@@ -20,13 +20,10 @@ private:
 	//The window we'll be rendering to
 	SDL_Window* gWindow = NULL;
 
-	//Current displayed texture
-	//Texture Monkey1;
-
 public:
 	//Screen dimension constants
-	const static int SCREEN_WIDTH = 640;
-	const static int SCREEN_HEIGHT = 480;
+	const static int SCREEN_WIDTH = 1024; //640;
+	const static int SCREEN_HEIGHT = 600; //480;
 
 	//The window renderer
 	SDL_Renderer* gRenderer = NULL;
